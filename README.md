@@ -1,14 +1,14 @@
 # evaluate
 mlp_evaluate_system_pl
 
-# function
+## function
 [y1 ... y5] = [x1 ... x31]
 
-# train
+## train
 python train_normalxy.py
 
-# test
+## test
 python test.py
 
-# ckpt
+## ckpt
 ckpts/best_normalxy.ckpt
