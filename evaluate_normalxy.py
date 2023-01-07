@@ -44,14 +44,26 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
             return param_group['lr']
 
     def setup(self, stage):
-        data = normalize(
-            self.h['data'], self.h['data_1'], self.h['data_2'])
-        rank = normalize(
-            self.h['rank'], self.h['rank_std'], self.h['rank_mean'])
-        kwargs = {'data': data,
-                  'rank': rank}
+        data_test = np.loadtxt('dataset/data_test.csv', delimiter=',')
+        rank_test = np.loadtxt('dataset/rank_test.csv', delimiter=',')
+        data_test = normalize(
+            data_test, self.h['data_1'], self.h['data_2'])
+        rank_test = normalize(
+            rank_test, self.h['rank_1'], self.h['rank_2']
+        )
+        kwargs = {'data': data_test, 
+                  'rank': rank_test}
+        self.test_dataset = EvaluateDataset(**kwargs)
+
+        data_train = np.loadtxt('dataset/data_train.csv', delimiter=',')
+        rank_train = np.loadtxt('dataset/rank_train.csv', delimiter=',')
+        data_train = normalize(
+            data_train, self.h['data_1'], self.h['data_2'])
+        rank_train = normalize(
+            rank_train, self.h['rank_1'], self.h['rank_2'])
+        kwargs = {'data': data_train,
+                  'rank': rank_train}
         train_dataset = EvaluateDataset(**kwargs)
-        self.test_dataset = train_dataset
         train_set_size = int(len(train_dataset) * 0.9)
         valid_set_size = len(train_dataset) - train_set_size
         # split the train set into two
@@ -60,7 +72,7 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
             train_dataset, [train_set_size, valid_set_size], generator=seed)
         self.train_dataset = train_set
         self.val_dataset = valid_set
-        
+
     def train_dataloader(self):
         return DataLoader(self.train_dataset,
                           shuffle=True,
@@ -101,7 +113,7 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
 
     def training_epoch_end(self, outputs):
         mean_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        self.log('mean_train_loss', mean_loss.clone().detach(),sync_dist=True)
+        self.log('mean_train_loss', mean_loss.clone().detach(), sync_dist=True)
 
     def validation_step(self, batch, batch_nb):
         data, label = self.decode_batch(batch)
@@ -110,22 +122,21 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
         return log
 
     def validation_epoch_end(self, outputs):
-        all_loss = [x['val_loss'] for x in outputs]
-        mean_loss = torch.tensor(all_loss).mean()
-        self.val_loss = mean_loss
+        all_loss = outputs[0]['val_loss']
+        mean_loss = all_loss.mean()
         return {'progress_bar': {'val_loss': mean_loss}, 'log': {'val/loss': mean_loss}}
 
     def test_step(self, batch, batch_idx):
         data, rank = self.decode_batch(batch)
-        data=data.to(torch.float32)
         results = self(data).squeeze(0)
         return results
 
     def test_epoch_end(self, outputs):
-        temp = np.array([i.numpy() for i in outputs])
-        result = denormalize(temp, self.h['rank_std'], self.h['rank_mean'])
+        temp = torch.cat([i for i in outputs])
+        result = denormalize(
+            temp.numpy(), self.h['rank_1'], self.h['rank_2'])
         pd.DataFrame(result).to_csv(
-            "data_output/output_noramlxy.csv", index=False, header=0)
+            "data_output/output_0.csv", index=False, header=0)
         # with open(os.path.abspath(f'./logs/weight_opt/result'))
 
 def normalize(data, std, mean):

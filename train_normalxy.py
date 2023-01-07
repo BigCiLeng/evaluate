@@ -5,27 +5,23 @@ import pytorch_lightning as pl
 from evaluate_normalxy import MLP_EVALUATE_SYSTEM
 from evaluate_normalxy import ori_rank
 from evaluate_normalxy import ori_data_std
+from pytorch_lightning.strategies import DDPStrategy
 
 if __name__ == '__main__':
-     data = np.loadtxt('dataset/data_train.csv', delimiter=',')
-     rank = np.loadtxt('dataset/rank_train.csv', delimiter=',')
-
-     rank_std, rank_mean = ori_rank()
+     rank_1, rank_2 = ori_rank()
      data_1, data_2 = ori_data_std()
 
      h = {'loss_type': 'sl1',
           'in_Channel': 31,
           'hidden_Channel_list': [128, 128, 128, 128, 128],
           'out_Channel': 5,
-          'lr': 3e-6,
+          'lr': 6e-6,
           'weight_decay': 1e-4,
           'num_epochs': 10000,
           'exp_name': 'evaluate',
           'num_gpus': 2,
-          'data': data,
-          'rank': rank,
-          'rank_std': rank_std,
-          'rank_mean': rank_mean,
+          'rank_1': rank_1,
+          'rank_2': rank_2,
           'data_1': data_1,
           'data_2': data_2
           }
@@ -55,10 +51,10 @@ if __name__ == '__main__':
                          # callbacks=[checkpoint],
                          # logger=logger,
                          accelerator='gpu',devices=h['num_gpus'],
-                         strategy="ddp",
+                         strategy=DDPStrategy(find_unused_parameters=False),
                          check_val_every_n_epoch=5,
                          num_sanity_val_steps=1,
                          benchmark=True,
-                         # profiler=hparams['num_gpus']==1,
+                         profiler='sample' if h['num_gpus']==1 else None,
                          log_every_n_steps=1)
      trainer.fit(system)

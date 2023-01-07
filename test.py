@@ -14,10 +14,6 @@ from pytorch_lightning import loggers
 import torch.utils.data
 import evaluate_normalxy
 
-data=np.loadtxt('dataset/data_test.csv',delimiter=',')
-rank=np.loadtxt('dataset/rank_test.csv',delimiter=',')
-kwargs = {'data': data,'rank':rank}
-
-model = evaluate_normalxy.MLP_EVALUATE_SYSTEM.load_from_checkpoint(os.path.abspath(r'lightning_logs/version_9/checkpoints/epoch=2844-step=469425.ckpt'))
+model = evaluate_normalxy.MLP_EVALUATE_SYSTEM.load_from_checkpoint(os.path.abspath(r'lightning_logs/version_4/checkpoints/epoch=9999-step=830000.ckpt'))
 trainer = pl.Trainer(max_epochs=1)
 result = trainer.test(model)
