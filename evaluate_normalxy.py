@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import pytorch_lightning as pl
 import torch.nn.functional as F
-from model import EVALUATE_MLP as MLP
+from models.mlp import EVALUATE_MLP as MLP
 from dataset.dataset import EvaluateDataset
 from torch.utils.data import DataLoader
 from torch.optim import Adam
