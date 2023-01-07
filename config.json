@@ -1,0 +1,17 @@
+{
+    "loss_type": "sl1",
+    "in_Channel": 31,
+    "hidden_Channel_list": [
+        128,
+        128,
+        128,
+        128,
+        128
+    ],
+    "out_Channel": 5,
+    "lr": 6e-6,
+    "weight_decay": 1e-4,
+    "num_epochs": 10000,
+    "exp_name": "evaluate",
+    "num_gpus": 2
+}

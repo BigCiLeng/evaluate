@@ -6,25 +6,18 @@ from evaluate_normalxy import MLP_EVALUATE_SYSTEM
 from evaluate_normalxy import ori_rank
 from evaluate_normalxy import ori_data_std
 from pytorch_lightning.strategies import DDPStrategy
-
+import json
 if __name__ == '__main__':
      rank_1, rank_2 = ori_rank()
      data_1, data_2 = ori_data_std()
+     with open('config.json', 'r') as f:  # 读配置文件，里面有最大进程数等
+          h = json.load(f)
 
-     h = {'loss_type': 'sl1',
-          'in_Channel': 31,
-          'hidden_Channel_list': [128, 128, 128, 128, 128],
-          'out_Channel': 5,
-          'lr': 6e-6,
-          'weight_decay': 1e-4,
-          'num_epochs': 10000,
-          'exp_name': 'evaluate',
-          'num_gpus': 2,
-          'rank_1': rank_1,
-          'rank_2': rank_2,
-          'data_1': data_1,
-          'data_2': data_2
-          }
+     h["rank_1"] = rank_1
+     h["rank_2"] = rank_2
+     h["data_1"] = data_1
+     h["data_2"] = data_2
+
      if(os.path.exists(os.path.abspath(r'./ckpts/evaluate/'))):
           shutil.rmtree(os.path.abspath(r'./ckpts/evaluate/'))
      else:
