@@ -14,6 +14,6 @@ from pytorch_lightning import loggers
 import torch.utils.data
 import evaluate_normalxy
 
-model = evaluate_normalxy.MLP_EVALUATE_SYSTEM.load_from_checkpoint(os.path.abspath(r'lightning_logs/version_4/checkpoints/epoch=9999-step=830000.ckpt'))
+model = evaluate_normalxy.MLP_EVALUATE_SYSTEM.load_from_checkpoint(os.path.abspath(r'ckpts/best_normalxy.ckpt'))
 trainer = pl.Trainer(max_epochs=1)
 result = trainer.test(model)
