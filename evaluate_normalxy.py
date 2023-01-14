@@ -149,8 +149,8 @@ def denormalize(data, std, mean):
     return data*std+mean
 
 
-def ori_data_std():
-    data = np.loadtxt('../dataset/ship_design/main_value.csv', delimiter=',')
+def ori_data_std(path="../dataset/ship_design/main_value.csv"):
+    data = np.loadtxt(path, delimiter=',')
     data = data.T
     data_mean = []
     data_std = []
@@ -159,8 +159,8 @@ def ori_data_std():
         data_std.append(np.std(i))
     return np.array(data_std), np.array(data_mean)
 
-def ori_rank():
-    rank = np.loadtxt('../dataset/ship_design/main_five.csv', delimiter=',')
+def ori_rank(path="../dataset/ship_design/main_five.csv"):
+    rank = np.loadtxt(path, delimiter=',')
     rank = rank.T
     rank_mean = []
     rank_std = []
