@@ -44,7 +44,7 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
             return param_group['lr']
 
     def setup(self, stage):
-        data_test = np.loadtxt('dataset/data_test.csv', delimiter=',')
+        data_test = np.loadtxt('dataset/data_test.csv', delimiter=',')[:,0:28]
         rank_test = np.loadtxt('dataset/rank_test.csv', delimiter=',')
         data_test = normalize(
             data_test, self.h['data_1'], self.h['data_2'])
@@ -55,7 +55,7 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
                   'rank': rank_test}
         self.test_dataset = EvaluateDataset(**kwargs)
 
-        data_train = np.loadtxt('dataset/data_train.csv', delimiter=',')
+        data_train = np.loadtxt('dataset/data_train.csv', delimiter=',')[:,0:28]
         rank_train = np.loadtxt('dataset/rank_train.csv', delimiter=',')
         data_train = normalize(
             data_train, self.h['data_1'], self.h['data_2'])
@@ -150,7 +150,7 @@ def denormalize(data, std, mean):
 
 
 def ori_data_std(path="../dataset/ship_design/main_value.csv"):
-    data = np.loadtxt(path, delimiter=',')
+    data = np.loadtxt(path, delimiter=',')[:,0:28]
     data = data.T
     data_mean = []
     data_std = []

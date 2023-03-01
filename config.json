@@ -1,6 +1,6 @@
 {
     "loss_type": "sl1",
-    "in_Channel": 31,
+    "in_Channel": 28,
     "hidden_Channel_list": [
         128,
         128,

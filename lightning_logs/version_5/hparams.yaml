@@ -1,0 +1,94 @@
+hparams:
+  data_1: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - &id001 !!python/name:numpy.ndarray ''
+    - !!python/tuple
+      - 0
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple
+      - 28
+    - &id002 !!python/object/apply:numpy.dtype
+      args:
+      - f8
+      - false
+      - true
+      state: !!python/tuple
+      - 3
+      - <
+      - null
+      - null
+      - null
+      - -1
+      - -1
+      - 0
+    - false
+    - !!binary |
+      YAa5f6Hn8z/QE7zKuSLQP1djLmoe8a8/AvIQod/lmD+OYLq8tsxfPz/HDH4N4ug/AAAAAAAAAACt
+      Gvq3RejoP4tP+6bi70E/puvtNIalbz/qNWol3c1rP2l+KxTWKLw/KJsL0+Bmxj9TXZ3zCi3VP7sT
+      +2UInqw/Y3Y6pcjllT/J+jgc1PeYP13h6oa9zag/CUfU/hsRyz8UxrPd6rzaP9/tLZ/TD8Y/SISg
+      YPtP1z9xE5QsWSjIP3Q++IzmMrg/T8WvxmLUwz9UyMRlfezHP2s1JfWp28U/o42/Rc4W0D8=
+  data_2: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - *id001
+    - !!python/tuple
+      - 0
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple
+      - 28
+    - *id002
+    - false
+    - !!binary |
+      2tF6yYE7YkCGllBFL8kwQBkFA2lvwCZAW1HDz+W8FkA2MhFunpvdP/fXmDq/g1JAAAAAAAAAAACV
+      MCK7R/JRQBIcOWDl6HS/l/Mk3Zn54z9ZRpFMhiLmP8KjL5HsOhBAjbzVq79PMECzGHHX5QsbQFsP
+      dRZv5y5ArGb2NQoNEkCZjYzXdqcGQKccJbLeIv8/nVECVs+JEECV1Uc3ikNDQKK+mcb/1yhAKj7k
+      nmcfKEC1RTYRgkkoQMxlro1zziZA4OMhnhKYKkBLJQqRZgMzQH4Oc79HFzJADhpcxCAzMkA=
+  exp_name: evaluate
+  hidden_Channel_list:
+  - 128
+  - 128
+  - 128
+  - 128
+  - 128
+  in_Channel: 28
+  loss_type: sl1
+  lr: 6.0e-06
+  num_epochs: 10000
+  num_gpus: 2
+  out_Channel: 5
+  rank_1: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - *id001
+    - !!python/tuple
+      - 0
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple
+      - 5
+    - *id002
+    - false
+    - !!binary |
+      rG5wcocPH0DESAwHVuDUP+OOdzTRhaM/90N0bzTNYECbgfQgo/eyPw==
+  rank_2: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - *id001
+    - !!python/tuple
+      - 0
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple
+      - 5
+    - *id002
+    - false
+    - !!binary |
+      p4lJkeXld0BXYJ0i4aUkQAWM1PrCBRxAiMtVyV2+ukAv21YkgUjwPw==
+  weight_decay: 0.0001
