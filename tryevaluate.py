@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 data_1, data_2 = evaluate_normalxy.ori_data_std()
 rank_1, rank_2 = evaluate_normalxy.ori_rank()
-model = evaluate_normalxy.MLP_EVALUATE_SYSTEM.load_from_checkpoint("ckpts/best_normalxy_28.ckpt")
+model = evaluate_normalxy.MLP_EVALUATE_SYSTEM.load_from_checkpoint("lightning_logs/version_10/checkpoints/epoch=9999-step=210000.ckpt")
 model.eval()
 x=np.loadtxt('dataset/data_test.csv',delimiter=',')[:,0:28]
 x=evaluate_normalxy.normalize(x,data_1,data_2)

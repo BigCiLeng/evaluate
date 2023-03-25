@@ -139,6 +139,19 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
             "data_output/output_0.csv", index=False, header=0)
         # with open(os.path.abspath(f'./logs/weight_opt/result'))
 
+def predict(x):
+    data_1, data_2 = ori_data_std()
+    rank_1, rank_2 = ori_rank()
+    model = MLP_EVALUATE_SYSTEM.load_from_checkpoint("ckpts/best_normalxy_28.ckpt")
+    model.eval()
+    x = normalize(x,data_1,data_2)
+    x = torch.tensor(x,dtype=torch.float32)
+    with torch.no_grad():
+        y = model(x)
+    y = denormalize(y,rank_1,rank_2)
+    y = y.numpy()
+    return y
+
 def normalize(data, std, mean):
     result = (data-mean)/std
     result[np.isnan(result)] = 0
@@ -149,7 +162,7 @@ def denormalize(data, std, mean):
     return data*std+mean
 
 
-def ori_data_std(path="../dataset/ship_design/main_value.csv"):
+def ori_data_std(path="dataset/main_value_3_21.csv"):
     data = np.loadtxt(path, delimiter=',')[:,0:28]
     data = data.T
     data_mean = []
@@ -159,7 +172,7 @@ def ori_data_std(path="../dataset/ship_design/main_value.csv"):
         data_std.append(np.std(i))
     return np.array(data_std), np.array(data_mean)
 
-def ori_rank(path="../dataset/ship_design/main_five.csv"):
+def ori_rank(path="dataset/main_five_3_21.csv"):
     rank = np.loadtxt(path, delimiter=',')
     rank = rank.T
     rank_mean = []
