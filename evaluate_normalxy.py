@@ -142,7 +142,7 @@ class MLP_EVALUATE_SYSTEM(pl.LightningModule):
 def predict(x):
     data_1, data_2 = ori_data_std()
     rank_1, rank_2 = ori_rank()
-    model = MLP_EVALUATE_SYSTEM.load_from_checkpoint("ckpts/best_normalxy_28.ckpt")
+    model = MLP_EVALUATE_SYSTEM.load_from_checkpoint("ckpts/best_normalxy_28_3_25.ckpt")
     model.eval()
     x = normalize(x,data_1,data_2)
     x = torch.tensor(x,dtype=torch.float32)
@@ -162,24 +162,24 @@ def denormalize(data, std, mean):
     return data*std+mean
 
 
-def ori_data_std(path="dataset/main_value_3_21.csv"):
+def ori_data_std(path="dataset/main_value_all.csv"):
     data = np.loadtxt(path, delimiter=',')[:,0:28]
     data = data.T
     data_mean = []
     data_std = []
     for i in data:
         data_mean.append(np.mean(i))
-        data_std.append(np.std(i))
+        data_std.append(np.std(i)+1e-6)
     return np.array(data_std), np.array(data_mean)
 
-def ori_rank(path="dataset/main_five_3_21.csv"):
+def ori_rank(path="dataset/main_five_all.csv"):
     rank = np.loadtxt(path, delimiter=',')
     rank = rank.T
     rank_mean = []
     rank_std = []
     for i in rank:
         rank_mean.append(np.mean(i))
-        rank_std.append(np.std(i))
+        rank_std.append(np.std(i)+1e-6)
     return np.array(rank_std), np.array(rank_mean)
 
 
